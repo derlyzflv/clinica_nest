@@ -14,8 +14,8 @@ export class DoctorsService {
             where: { id }
         })
 
-        if (!doctor)
-            throw new NotFoundException('Doctor not found')
+        // if (!doctor)
+        // throw new NotFoundException('Doctor not found')
         return doctor
     }
 

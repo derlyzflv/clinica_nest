@@ -28,7 +28,7 @@ export class PatientsService {
 
     async update(id: number, data: UpdatePatientDto) {
 
-        await this.findOne(Number(id))
+        // await this.findOne(Number(id))
 
         const dateOnly = data.birth_date?.split('T')[0]
 
@@ -40,7 +40,7 @@ export class PatientsService {
 
     async remove(id: number) {
 
-        await this.findOne(Number(id))
+        // await this.findOne(Number(id))
 
         return this.prisma.patients.delete({
             where: { id }
