@@ -23,7 +23,7 @@ export class DoctorsController {
     }
 
     @Put(':id')
-    update(@Param(':id') id: string, @Body() dto: UpdateDoctorDto) {
+    update(@Param('id') id: string, @Body() dto: UpdateDoctorDto) {
         return this.doctorsService.update(Number(id), dto)
     }
 
