@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { DoctorsService } from './doctors.service.js';
+import { CreateDoctorDto } from './dto/create-doctor.dto.js';
+import { UpdateDoctorDto } from './dto/update-doctor.dto.js';
 
 @Controller('doctors')
 export class DoctorsController {
@@ -12,22 +14,22 @@ export class DoctorsController {
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.doctorsService.findOne(+id)
+        return this.doctorsService.findOne(Number(id))
     }
 
     @Post()
-    create(@Body() body: any) {
-        return this.doctorsService.create(body)
+    create(@Body() dto: CreateDoctorDto) {
+        return this.doctorsService.create(dto)
     }
 
     @Put(':id')
-    update(@Param(':id') id: string, @Body() body: any) {
-        return this.doctorsService.update(+id, body)
+    update(@Param(':id') id: string, @Body() dto: UpdateDoctorDto) {
+        return this.doctorsService.update(Number(id), dto)
     }
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.doctorsService.remove(+id)
+        return this.doctorsService.remove(Number(id))
     }
 
 }

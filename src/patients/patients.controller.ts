@@ -8,6 +8,8 @@ import {
     Post,
 } from '@nestjs/common'
 import { PatientsService } from './patients.service.js'
+import { CreatePatientDto } from './dto/create-patient.dto.js'
+import { UpdatePatientDto } from './dto/update-patient.dto.js'
 
 @Controller('patients')
 export class PatientsController {
@@ -20,37 +22,21 @@ export class PatientsController {
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.patientsService.findOne(+id)
+        return this.patientsService.findOne(Number(id))
     }
 
     @Post()
-    create(@Body() body: {
-        first_name: string
-        last_name: string
-        email: string
-        birth_date: string
-    }) {
-        const { first_name, last_name, email, birth_date } = body
-        return this.patientsService.create({
-            first_name,
-            last_name,
-            email,
-            birth_date
-        })
+    create(@Body() dto: CreatePatientDto) {
+        return this.patientsService.create(dto)
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() body: {
-        first_name?: string
-        last_name?: string
-        email?: string
-        birth_date?: string
-    }) {
-        return this.patientsService.update(+id, body)
+    update(@Param('id') id: string, @Body() dto: UpdatePatientDto) {
+        return this.patientsService.update(Number(id), dto)
     }
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.patientsService.remove(+id)
+        return this.patientsService.remove(Number(id))
     }
 }

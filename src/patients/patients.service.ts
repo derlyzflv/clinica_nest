@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service.js'
+import { CreatePatientDto } from './dto/create-patient.dto.js';
+import { UpdatePatientDto } from './dto/update-patient.dto.js';
 
 @Injectable()
 export class PatientsService {
@@ -19,33 +21,26 @@ export class PatientsService {
         return patient
     }
 
-    create(data: {
-        first_name: string,
-        last_name: string,
-        email: string,
-        birth_date: string
-    }) {
-        return this.prisma.patients.create({ data: { ...data, birth_date: new Date(`${data.birth_date}T12:00:00.000Z`) } })
+    create(data: CreatePatientDto) {
+        const dateOnly = data.birth_date.split('T')[0]
+        return this.prisma.patients.create({ data: { ...data, birth_date: new Date(`${dateOnly}T12:00:00.000Z`) } })
     }
 
-    async update(id: number, data: {
-        first_name?: string,
-        last_name?: string,
-        email?: string,
-        birth_date?: string
-    }) {
+    async update(id: number, data: UpdatePatientDto) {
 
-        await this.findOne(+id)
+        // await this.findOne(Number(id))
+
+        const dateOnly = data.birth_date?.split('T')[0]
 
         return this.prisma.patients.update({
             where: { id },
-            data: { ...data, birth_date: data.birth_date ? new Date(`${data.birth_date}T12:00:00.000Z`) : undefined }
+            data: { ...data, birth_date: dateOnly ? new Date(`${dateOnly}T12:00:00.000Z`) : undefined }
         })
     }
 
     async remove(id: number) {
 
-        await this.findOne(+id)
+        // await this.findOne(Number(id))
 
         return this.prisma.patients.delete({
             where: { id }
