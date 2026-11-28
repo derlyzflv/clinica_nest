@@ -6,12 +6,18 @@ import {
     Param,
     Put,
     Post,
+    UseGuards,
 } from '@nestjs/common'
 import { PatientsService } from './patients.service.js'
 import { CreatePatientDto } from './dto/create-patient.dto.js'
 import { UpdatePatientDto } from './dto/update-patient.dto.js'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js'
+import { RolesGuard } from '../auth/guards/roles.guard.js'
+import { Roles } from '../auth/guards/decorators/roles.decorator.js'
 
 @Controller('patients')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('RECEPCIONISTA')
 export class PatientsController {
     constructor(private readonly patientsService: PatientsService) { }
 
